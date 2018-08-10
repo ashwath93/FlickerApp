@@ -10,11 +10,19 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var collectionView: UICollectionView!
+    let viewModel = ViewModel()
+    private var dataSource: PhotosDelegateDataSource!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        dataSource = PhotosDelegateDataSource(collectionView: collectionView, viewModel: viewModel)
+        viewModel.fetchPhotos()
     }
 
-
+    @IBAction func searchTapped(_ sender: Any) {
+        let searchScreen = SearchCollectionViewController()
+        navigationController?.pushViewController(searchScreen, animated: true)
+        viewModel.operationQueue.cancelAllOperations()
+    }
 }
-
